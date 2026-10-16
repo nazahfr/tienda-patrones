@@ -47,12 +47,12 @@ Esto descargará las dependencias y compilará las 45 clases en la carpeta `targ
 * En Windows (PowerShell):
   ```powershell
   mkdir out -ErrorAction SilentlyContinue
-  javac -encoding UTF-8 -d out (Get-ChildItem -Recurse -Filter *.java src | % FullName)
+  javac -encoding UTF-8 -d out (Get-ChildItem -Recurse -Filter *.java src/main | % FullName)
   ```
 * En Linux / macOS / Git Bash:
   ```bash
   mkdir -p out
-  javac -encoding UTF-8 -d out $(find src -name "*.java")
+  javac -encoding UTF-8 -d out $(find src/main -name "*.java")
   ```
 
 ---
@@ -100,16 +100,16 @@ java -cp target/classes pe.utp.tienda.Pruebas
 | :--- | :--- | :--- |
 | **Singleton** | `pe.utp.tienda.creational.singleton.ConfiguracionApp`<br>`pe.utp.tienda.creational.singleton.ConexionBD` | Punto de acceso global y único para la configuración general y la conexión a la base de datos MySQL. |
 | **Prototype** | `pe.utp.tienda.model.Producto`<br>(`Polera`, `Pantalon`, `Zapatilla`) | Clonación de prendas base para generar variantes de talla y color manteniendo el stock independiente. |
-| **Builder** | `pe.utp.tienda.creational.builder.Pedido.PedidoBuilder` | Construcción paso a paso de pedidos complejos (cliente, ítems, método de pago, descuentos). |
+| **Builder** | `pe.utp.tienda.model.Pedido.Builder` | Construcción paso a paso de pedidos complejos (cliente, ítems, método de pago, descuentos). |
 | **Factory Method** | `pe.utp.tienda.creational.factory.ComprobanteFactory` | Desacoplamiento de la creación de comprobantes fiscales (`Boleta` o `Factura`) según el tipo de cliente. |
-| **Abstract Factory** | `pe.utp.tienda.creational.abstractfactory.PasarelaPagoFactory`<br>(`CulqiFactory`, `MercadoPagoFactory`) | Creación de familias completas de procesamiento de pagos (procesador + tokenizador/validador). |
+| **Abstract Factory** | `pe.utp.tienda.creational.abstractfactory.PasarelaPagoFactory`<br>(`YapeFactory`, `PlinFactory`, `TarjetaFactory`) | Creación de familias completas de procesamiento de pagos (procesador + tokenizador/validador). |
 
 ### 2. Patrones Estructurales (Semanas 8 y 9)
 | Patrón | Clase / Paquete | Justificación y Aplicación |
 | :--- | :--- | :--- |
 | **Adapter** | `pe.utp.tienda.structural.adapter.ReniecAdapter` | Adapta la API legacy de RENIEC (parámetros enteros primitivos) a la interfaz del dominio (`String`, validación de 8 dígitos). |
 | **Facade** | `pe.utp.tienda.structural.facade.VentaFacade` | Fachada unificada que orquesta el flujo de venta: validación de identidad, stock, cobro, comprobante y notificación. |
-| **Decorator** | `pe.utp.tienda.structural.decorator.PrecioDecorator`<br>(`DescuentoDecorator`, `IgvDecorator`, `EnvioDecorator`) | Agrega dinámicamente modificaciones sobre el precio de las prendas (descuentos, impuestos, gastos de envío) en tiempo de ejecución. |
+| **Decorator** | `pe.utp.tienda.structural.decorator.DecoradorPrecio`<br>(`ConDescuento`, `ConIgv`, `ConEnvio`) | Agrega dinámicamente modificaciones sobre el precio de las prendas (descuentos, impuestos, gastos de envío) en tiempo de ejecución. |
 | **Composite** | `pe.utp.tienda.structural.composite.Categoria`<br>`pe.utp.tienda.model.Producto` | Estructuración en árbol de categorías y subcategorías, calculando de forma recursiva el stock total y valorización. |
 
 ---

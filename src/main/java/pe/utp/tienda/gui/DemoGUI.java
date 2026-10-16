@@ -48,7 +48,7 @@ public class DemoGUI extends JFrame {
 
     // Estado compartido
     private final Polera      polera    = new Polera("POL-OVR-001", "Polera Oversize Negra", "M", 59.0, 25);
-    private final Pantalon    pantalon  = new Pantalon("PAN-CRG-001", "Pantalone Cargo Beige", "32", 79.0, 15);
+    private final Pantalon    pantalon  = new Pantalon("PAN-CRG-001", "Pantalon Cargo Beige", "32", 79.0, 15);
     private final Zapatilla   zapatilla = new Zapatilla("ZAP-URB-001", "Zapatillas Urbanas Blancas", "40", 148.0, 10);
     private final Cliente     clienteAna = new Cliente("72345678", "Ana", "Torres");
     private final VentaFacade facade    = new VentaFacade(
