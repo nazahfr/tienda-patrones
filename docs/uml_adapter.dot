@@ -1,0 +1,12 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Adapter: ReniecAdapter";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+VentaFacade [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>VentaFacade</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+registrarVenta(pedido, metodo, tipo): String</TD></TR></TABLE>>];
+ValidadorDocumento [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>ValidadorDocumento</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+validarDni(dni): boolean</TD></TR></TABLE>>];
+ReniecAdapter [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>ReniecAdapter</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-api: ReniecApiExterna</TD></TR><HR/><TR><TD ALIGN="LEFT">+validarDni(dni): boolean</TD></TR></TABLE>>];
+ReniecApiExterna [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FDE7E7"><TR><TD><B>ReniecApiExterna</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+consultarPersona(numero, tipo): String</TD></TR></TABLE>>];
+VentaFacade -> ValidadorDocumento [arrowhead=vee, style=solid, label="usa (Target)", fontsize=9];
+ReniecAdapter -> ValidadorDocumento [arrowhead=empty, style=dashed];
+ReniecAdapter -> ReniecApiExterna [arrowhead=vee, style=solid, label="adapta (Adaptee)", fontsize=9];
+}

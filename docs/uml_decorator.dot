@@ -1,0 +1,17 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Decorator: calculo del precio final";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+CalculoPrecio [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>CalculoPrecio</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+calcular(): double</TD></TR><TR><TD ALIGN="LEFT">+detalle(): String</TD></TR></TABLE>>];
+PrecioBase [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>PrecioBase</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-monto: double</TD></TR><HR/><TR><TD ALIGN="LEFT">+calcular(): double</TD></TR><TR><TD ALIGN="LEFT">+detalle(): String</TD></TR></TABLE>>];
+DecoradorPrecio [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><I><B>DecoradorPrecio</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT">#envuelto: CalculoPrecio</TD></TR><HR/><TR><TD ALIGN="LEFT">+calcular(): double</TD></TR><TR><TD ALIGN="LEFT">+detalle(): String</TD></TR></TABLE>>];
+ConDescuento [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>ConDescuento</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-porcentaje: double</TD></TR><HR/><TR><TD ALIGN="LEFT">+calcular(): double</TD></TR><TR><TD ALIGN="LEFT">+detalle(): String</TD></TR></TABLE>>];
+ConIgv [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>ConIgv</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+calcular(): double</TD></TR><TR><TD ALIGN="LEFT">+detalle(): String</TD></TR></TABLE>>];
+ConEnvio [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>ConEnvio</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-costo: double</TD></TR><HR/><TR><TD ALIGN="LEFT">+calcular(): double</TD></TR><TR><TD ALIGN="LEFT">+detalle(): String</TD></TR></TABLE>>];
+PrecioBase -> CalculoPrecio [arrowhead=empty, style=dashed];
+DecoradorPrecio -> CalculoPrecio [arrowhead=empty, style=dashed];
+DecoradorPrecio -> CalculoPrecio [dir=back, arrowtail=odiamond, arrowhead=none, style=solid, label="envuelto", fontsize=9];
+ConDescuento -> DecoradorPrecio [arrowhead=empty, style=solid];
+ConIgv -> DecoradorPrecio [arrowhead=empty, style=solid];
+ConEnvio -> DecoradorPrecio [arrowhead=empty, style=solid];
+}

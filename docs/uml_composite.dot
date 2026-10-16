@@ -1,0 +1,17 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Composite: catalogo de categorias y productos";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+ComponenteCatalogo [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>ComponenteCatalogo</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+getNombre(): String</TD></TR><TR><TD ALIGN="LEFT">+getPrecioTotal(): double</TD></TR><TR><TD ALIGN="LEFT">+getStockTotal(): int</TD></TR><TR><TD ALIGN="LEFT">+mostrar(sangria)</TD></TR></TABLE>>];
+Producto [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><I><B>Producto</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT">-sku: String</TD></TR><TR><TD ALIGN="LEFT">-talla: String</TD></TR><TR><TD ALIGN="LEFT">-precio: double</TD></TR><TR><TD ALIGN="LEFT">-stock: int</TD></TR><HR/><TR><TD ALIGN="LEFT">+getPrecioTotal(): double</TD></TR><TR><TD ALIGN="LEFT">+getStockTotal(): int</TD></TR><TR><TD ALIGN="LEFT">+mostrar(sangria)</TD></TR></TABLE>>];
+Categoria [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>Categoria</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-nombre: String</TD></TR><TR><TD ALIGN="LEFT">-hijos: List&lt;ComponenteCatalogo&gt;</TD></TR><HR/><TR><TD ALIGN="LEFT">+agregar(c)</TD></TR><TR><TD ALIGN="LEFT">+quitar(c)</TD></TR><TR><TD ALIGN="LEFT">+getPrecioTotal(): double</TD></TR><TR><TD ALIGN="LEFT">+getStockTotal(): int</TD></TR><TR><TD ALIGN="LEFT">+mostrar(sangria)</TD></TR></TABLE>>];
+Polera [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Polera</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+Pantalon [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Pantalon</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+Zapatilla [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Zapatilla</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+Producto -> ComponenteCatalogo [arrowhead=empty, style=dashed, label="Leaf", fontsize=9];
+Categoria -> ComponenteCatalogo [arrowhead=empty, style=dashed, label="Composite", fontsize=9];
+Categoria -> ComponenteCatalogo [dir=back, arrowtail=diamond, arrowhead=none, style=solid, label="hijos  0..*", fontsize=9];
+Polera -> Producto [arrowhead=empty, style=solid];
+Pantalon -> Producto [arrowhead=empty, style=solid];
+Zapatilla -> Producto [arrowhead=empty, style=solid];
+}

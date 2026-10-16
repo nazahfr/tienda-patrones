@@ -1,0 +1,21 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Prototype: Producto, CatalogoPrototipos y Pedido";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+Producto [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><I><B>Producto</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT">-sku: String</TD></TR><TR><TD ALIGN="LEFT">-nombre: String</TD></TR><TR><TD ALIGN="LEFT">-talla: String</TD></TR><TR><TD ALIGN="LEFT">-precio: double</TD></TR><TR><TD ALIGN="LEFT">-stock: int</TD></TR><HR/><TR><TD ALIGN="LEFT">+clone(): Producto</TD></TR><TR><TD ALIGN="LEFT">+clonarVariante(sku, talla, stock): Producto</TD></TR><TR><TD ALIGN="LEFT">+tipo(): String {abstract}</TD></TR></TABLE>>];
+Polera [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Polera</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+tipo(): String</TD></TR></TABLE>>];
+Pantalon [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Pantalon</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+tipo(): String</TD></TR></TABLE>>];
+Zapatilla [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Zapatilla</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+tipo(): String</TD></TR></TABLE>>];
+CatalogoPrototipos [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>CatalogoPrototipos</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-prototipos: Map&lt;String, Producto&gt;</TD></TR><HR/><TR><TD ALIGN="LEFT">+registrar(clave, prototipo)</TD></TR><TR><TD ALIGN="LEFT">+crearVariante(clave, sku, talla, stock): Producto</TD></TR></TABLE>>];
+Pedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>Pedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-cliente: Cliente</TD></TR><TR><TD ALIGN="LEFT">-items: List&lt;ItemPedido&gt;</TD></TR><TR><TD ALIGN="LEFT">-estado: String</TD></TR><HR/><TR><TD ALIGN="LEFT">+clone(): Pedido  // copia profunda</TD></TR></TABLE>>];
+ItemPedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>ItemPedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-producto: Producto</TD></TR><TR><TD ALIGN="LEFT">-cantidad: int</TD></TR><HR/><TR><TD ALIGN="LEFT">+getSubtotal(): double</TD></TR></TABLE>>];
+Cloneable [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD>&laquo;interface&raquo;<BR/><B>Cloneable</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+Polera -> Producto [arrowhead=empty, style=solid];
+Pantalon -> Producto [arrowhead=empty, style=solid];
+Zapatilla -> Producto [arrowhead=empty, style=solid];
+Producto -> Cloneable [arrowhead=empty, style=dashed];
+Pedido -> Cloneable [arrowhead=empty, style=dashed];
+CatalogoPrototipos -> Producto [dir=back, arrowtail=odiamond, arrowhead=none, style=solid, label="1  prototipos  *", fontsize=9];
+Pedido -> ItemPedido [dir=back, arrowtail=diamond, arrowhead=none, style=solid, label="1  items  *", fontsize=9];
+ItemPedido -> Producto [arrowhead=vee, style=solid];
+}

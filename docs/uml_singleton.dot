@@ -1,0 +1,11 @@
+digraph G {
+ rankdir=TB; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Singleton: ConfiguracionApp y ConexionBD";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+ConfiguracionApp [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>ConfiguracionApp</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-nombreTienda: String</TD></TR><TR><TD ALIGN="LEFT">-moneda: String</TD></TR><TR><TD ALIGN="LEFT">-igv: double</TD></TR><HR/><TR><TD ALIGN="LEFT">-ConfiguracionApp()</TD></TR><TR><TD ALIGN="LEFT">+getInstancia(): ConfiguracionApp {static}</TD></TR><TR><TD ALIGN="LEFT">+getIgv(): double</TD></TR><TR><TD ALIGN="LEFT">+getMoneda(): String</TD></TR></TABLE>>];
+ConexionBD [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>ConexionBD</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-instancia: ConexionBD {static, volatile}</TD></TR><TR><TD ALIGN="LEFT">-url: String</TD></TR><TR><TD ALIGN="LEFT">-conexion: Connection</TD></TR><HR/><TR><TD ALIGN="LEFT">-ConexionBD()</TD></TR><TR><TD ALIGN="LEFT">+getInstancia(): ConexionBD {static}</TD></TR><TR><TD ALIGN="LEFT">+getConexion(): Connection</TD></TR><TR><TD ALIGN="LEFT">+getUrl(): String</TD></TR></TABLE>>];
+Holder [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>Holder</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-INSTANCIA: ConfiguracionApp {static final}</TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+ConIgv [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>ConIgv</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+calcular(): double</TD></TR></TABLE>>];
+ConfiguracionApp -> Holder [dir=back, arrowtail=diamond, arrowhead=none, style=solid, label="contiene", fontsize=9];
+ConIgv -> ConfiguracionApp [arrowhead=vee, style=dashed, label="usa getIgv()", fontsize=9];
+}

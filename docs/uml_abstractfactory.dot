@@ -1,0 +1,34 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Abstract Factory: familias de pasarelas de pago";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+PasarelaPagoFactory [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD>&laquo;interface&raquo;<BR/><B>PasarelaPagoFactory</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+crearMetodoPago(): IMetodoPago</TD></TR><TR><TD ALIGN="LEFT">+crearRecibo(): ReciboPago</TD></TR><TR><TD ALIGN="LEFT">+para(metodo): PasarelaPagoFactory {static}</TD></TR></TABLE>>];
+IMetodoPago [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>IMetodoPago</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+nombre(): String</TD></TR><TR><TD ALIGN="LEFT">+cobrar(monto): boolean</TD></TR></TABLE>>];
+ReciboPago [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>ReciboPago</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(monto): String</TD></TR></TABLE>>];
+YapeFactory [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>YapeFactory</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+crearMetodoPago()</TD></TR><TR><TD ALIGN="LEFT">+crearRecibo()</TD></TR></TABLE>>];
+YapePago [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>YapePago</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+nombre()</TD></TR><TR><TD ALIGN="LEFT">+cobrar(monto)</TD></TR></TABLE>>];
+YapeRecibo [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>YapeRecibo</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(monto)</TD></TR></TABLE>>];
+PlinFactory [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>PlinFactory</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+crearMetodoPago()</TD></TR><TR><TD ALIGN="LEFT">+crearRecibo()</TD></TR></TABLE>>];
+PlinPago [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>PlinPago</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+nombre()</TD></TR><TR><TD ALIGN="LEFT">+cobrar(monto)</TD></TR></TABLE>>];
+PlinRecibo [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>PlinRecibo</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(monto)</TD></TR></TABLE>>];
+TarjetaFactory [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>TarjetaFactory</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+crearMetodoPago()</TD></TR><TR><TD ALIGN="LEFT">+crearRecibo()</TD></TR></TABLE>>];
+TarjetaPago [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>TarjetaPago</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+nombre()</TD></TR><TR><TD ALIGN="LEFT">+cobrar(monto)</TD></TR></TABLE>>];
+TarjetaRecibo [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>TarjetaRecibo</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(monto)</TD></TR></TABLE>>];
+PasarelaPagoFactory -> IMetodoPago [arrowhead=vee, style=solid];
+PasarelaPagoFactory -> ReciboPago [arrowhead=vee, style=solid];
+YapeFactory -> PasarelaPagoFactory [arrowhead=empty, style=dashed];
+YapePago -> IMetodoPago [arrowhead=empty, style=dashed];
+YapeRecibo -> ReciboPago [arrowhead=empty, style=dashed];
+YapeFactory -> YapePago [arrowhead=vee, style=dashed, label="<<create>>", fontsize=9];
+YapeFactory -> YapeRecibo [arrowhead=vee, style=dashed, label="<<create>>", fontsize=9];
+PlinFactory -> PasarelaPagoFactory [arrowhead=empty, style=dashed];
+PlinPago -> IMetodoPago [arrowhead=empty, style=dashed];
+PlinRecibo -> ReciboPago [arrowhead=empty, style=dashed];
+PlinFactory -> PlinPago [arrowhead=vee, style=dashed, label="<<create>>", fontsize=9];
+PlinFactory -> PlinRecibo [arrowhead=vee, style=dashed, label="<<create>>", fontsize=9];
+TarjetaFactory -> PasarelaPagoFactory [arrowhead=empty, style=dashed];
+TarjetaPago -> IMetodoPago [arrowhead=empty, style=dashed];
+TarjetaRecibo -> ReciboPago [arrowhead=empty, style=dashed];
+TarjetaFactory -> TarjetaPago [arrowhead=vee, style=dashed, label="<<create>>", fontsize=9];
+TarjetaFactory -> TarjetaRecibo [arrowhead=vee, style=dashed, label="<<create>>", fontsize=9];
+}

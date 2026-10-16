@@ -1,0 +1,20 @@
+digraph G {
+ rankdir=TB; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Facade: VentaFacade";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+VentaFacade [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>VentaFacade</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-validador: ValidadorDocumento</TD></TR><TR><TD ALIGN="LEFT">-inventario: InventarioService</TD></TR><TR><TD ALIGN="LEFT">-notificaciones: NotificacionService</TD></TR><HR/><TR><TD ALIGN="LEFT">+registrarVenta(pedido, metodoPago, tipoComprobante): String</TD></TR></TABLE>>];
+ValidadorDocumento [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD>&laquo;interface&raquo;<BR/><B>ValidadorDocumento</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+validarDni(dni)</TD></TR></TABLE>>];
+InventarioService [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>InventarioService</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+verificarStock(pedido)</TD></TR><TR><TD ALIGN="LEFT">+descontarStock(pedido)</TD></TR></TABLE>>];
+NotificacionService [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>NotificacionService</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+enviar(destinatario, mensaje)</TD></TR></TABLE>>];
+PasarelaPagoFactory [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD>&laquo;interface&raquo;<BR/><B>PasarelaPagoFactory</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+crearMetodoPago()</TD></TR><TR><TD ALIGN="LEFT">+crearRecibo()</TD></TR></TABLE>>];
+ComprobanteFactory [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><I><B>ComprobanteFactory</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+emitir(pedido, total)</TD></TR></TABLE>>];
+CalculoPrecio [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD>&laquo;interface&raquo;<BR/><B>CalculoPrecio</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+calcular()</TD></TR><TR><TD ALIGN="LEFT">+detalle()</TD></TR></TABLE>>];
+Pedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>Pedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+getSubtotal()</TD></TR></TABLE>>];
+VentaFacade -> ValidadorDocumento [arrowhead=vee, style=solid];
+VentaFacade -> InventarioService [arrowhead=vee, style=solid];
+VentaFacade -> NotificacionService [arrowhead=vee, style=solid];
+VentaFacade -> PasarelaPagoFactory [arrowhead=vee, style=dashed];
+VentaFacade -> ComprobanteFactory [arrowhead=vee, style=dashed];
+VentaFacade -> CalculoPrecio [arrowhead=vee, style=dashed];
+VentaFacade -> Pedido [arrowhead=vee, style=dashed];
+}

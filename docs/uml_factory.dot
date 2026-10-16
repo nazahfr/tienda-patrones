@@ -1,0 +1,18 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Factory Method: ComprobanteFactory";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+ComprobanteFactory [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><I><B>ComprobanteFactory</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">#crearComprobante(): Comprobante {abstract}</TD></TR><TR><TD ALIGN="LEFT">+emitir(pedido, total): String</TD></TR><TR><TD ALIGN="LEFT">+de(tipo): ComprobanteFactory {static}</TD></TR></TABLE>>];
+BoletaFactory [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>BoletaFactory</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">#crearComprobante(): Comprobante</TD></TR></TABLE>>];
+FacturaFactory [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>FacturaFactory</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">#crearComprobante(): Comprobante</TD></TR></TABLE>>];
+Comprobante [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>Comprobante</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(pedido, total): String</TD></TR></TABLE>>];
+Boleta [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Boleta</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-CORRELATIVO: AtomicInteger {static}</TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(pedido, total): String</TD></TR></TABLE>>];
+FacturaElectronica [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>FacturaElectronica</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-CORRELATIVO: AtomicInteger {static}</TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(pedido, total): String</TD></TR></TABLE>>];
+BoletaFactory -> ComprobanteFactory [arrowhead=empty, style=solid];
+FacturaFactory -> ComprobanteFactory [arrowhead=empty, style=solid];
+Boleta -> Comprobante [arrowhead=empty, style=dashed];
+FacturaElectronica -> Comprobante [arrowhead=empty, style=dashed];
+ComprobanteFactory -> Comprobante [arrowhead=vee, style=solid];
+BoletaFactory -> Boleta [arrowhead=vee, style=dashed, label="<<create>>", fontsize=9];
+FacturaFactory -> FacturaElectronica [arrowhead=vee, style=dashed, label="<<create>>", fontsize=9];
+}

@@ -1,0 +1,13 @@
+digraph G {
+ rankdir=LR; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Builder: Pedido.Builder";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+Builder [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>Builder</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-cliente: Cliente  {obligatorio}</TD></TR><TR><TD ALIGN="LEFT">-items: List&lt;ItemPedido&gt;</TD></TR><TR><TD ALIGN="LEFT">-descuentoPct: double</TD></TR><TR><TD ALIGN="LEFT">-costoEnvio: double</TD></TR><TR><TD ALIGN="LEFT">-notas: String</TD></TR><HR/><TR><TD ALIGN="LEFT">+Builder(cliente)</TD></TR><TR><TD ALIGN="LEFT">+agregarItem(producto, cantidad): Builder</TD></TR><TR><TD ALIGN="LEFT">+descuento(pct): Builder</TD></TR><TR><TD ALIGN="LEFT">+envio(costo): Builder</TD></TR><TR><TD ALIGN="LEFT">+notas(texto): Builder</TD></TR><TR><TD ALIGN="LEFT">+build(): Pedido</TD></TR></TABLE>>];
+Pedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Pedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-cliente: Cliente</TD></TR><TR><TD ALIGN="LEFT">-items: List&lt;ItemPedido&gt;</TD></TR><TR><TD ALIGN="LEFT">-descuentoPct: double</TD></TR><TR><TD ALIGN="LEFT">-costoEnvio: double</TD></TR><TR><TD ALIGN="LEFT">-notas: String</TD></TR><TR><TD ALIGN="LEFT">-estado: String</TD></TR><HR/><TR><TD ALIGN="LEFT">-Pedido(Builder)</TD></TR><TR><TD ALIGN="LEFT">+getSubtotal(): double</TD></TR><TR><TD ALIGN="LEFT">+clone(): Pedido</TD></TR></TABLE>>];
+Cliente [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>Cliente</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-dni: String</TD></TR><TR><TD ALIGN="LEFT">-nombres: String</TD></TR><TR><TD ALIGN="LEFT">-apellidos: String</TD></TR><HR/><TR><TD ALIGN="LEFT">+getNombreCompleto(): String</TD></TR></TABLE>>];
+ItemPedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFFFFF"><TR><TD><B>ItemPedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-producto: Producto</TD></TR><TR><TD ALIGN="LEFT">-cantidad: int</TD></TR><HR/><TR><TD ALIGN="LEFT">+getSubtotal(): double</TD></TR></TABLE>>];
+Builder -> Pedido [arrowhead=vee, style=dashed, label="<<create>>  build()", fontsize=9];
+Builder -> Cliente [arrowhead=vee, style=solid];
+Pedido -> Cliente [arrowhead=vee, style=solid];
+Pedido -> ItemPedido [dir=back, arrowtail=diamond, arrowhead=none, style=solid, label="1  items  1..*", fontsize=9];
+}
