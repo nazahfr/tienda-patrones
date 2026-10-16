@@ -7,7 +7,7 @@ Implementación en **Java 17 Orientado a Objetos** con arquitectura basada en **
 ## 📌 SECCIÓN IV: REPOSITORIO Y MANUAL DE DESPLIEGUE
 
 ### 4.1. Enlace al Repositorio de Código Fuente
-* **Repositorio GitHub:** [https://github.com/Nazah29/tienda-patrones](https://github.com/Nazah29/tienda-patrones)
+* **Repositorio GitHub:** [https://github.com/nazahfr/tienda-patrones](https://github.com/nazahfr/tienda-patrones)
 * **Visibilidad:** Público / Con acceso para evaluación docente.
 * **Rama principal:** `main`
 
@@ -29,7 +29,7 @@ Para compilar y ejecutar este proyecto se requiere contar con:
 #### B. Clonación del Repositorio
 Abre una terminal o consola de comandos y ejecuta:
 ```bash
-git clone https://github.com/Nazah29/tienda-patrones.git
+git clone https://github.com/nazahfr/tienda-patrones.git
 cd tienda-patrones
 ```
 
