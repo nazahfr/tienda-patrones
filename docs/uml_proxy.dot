@@ -1,0 +1,19 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Proxy: seguridad/auditoria de reportes y cache del catalogo";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+ServicioReportes [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>ServicioReportes</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(tipo, formato): String</TD></TR></TABLE>>];
+ServicioReportesReal [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>ServicioReportesReal</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-pedidos: PedidoDAO</TD></TR><TR><TD ALIGN="LEFT">-productos: ProductoDAO</TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(tipo, formato): String</TD></TR></TABLE>>];
+ServicioReportesProxy [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>ServicioReportesProxy</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-real: ServicioReportes</TD></TR><TR><TD ALIGN="LEFT">-usuario: Usuario</TD></TR><TR><TD ALIGN="LEFT">-auditoria: List&lt;String&gt;</TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(tipo, formato): String</TD></TR><TR><TD ALIGN="LEFT">-tienePermiso(tipo): boolean</TD></TR><TR><TD ALIGN="LEFT">+getAuditoria(): List&lt;String&gt;</TD></TR></TABLE>>];
+ConsultaCatalogo [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>ConsultaCatalogo</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+buscarPorSku(sku): Optional&lt;Producto&gt;</TD></TR></TABLE>>];
+CatalogoRepositorio [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>CatalogoRepositorio</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-dao: ProductoDAO</TD></TR><TR><TD ALIGN="LEFT">-accesos: int</TD></TR><HR/><TR><TD ALIGN="LEFT">+buscarPorSku(sku): Optional&lt;Producto&gt;</TD></TR></TABLE>>];
+CatalogoCacheProxy [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>CatalogoCacheProxy</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-real: ConsultaCatalogo</TD></TR><TR><TD ALIGN="LEFT">-cache: Map&lt;String, Producto&gt;</TD></TR><TR><TD ALIGN="LEFT">-aciertos, fallos: int</TD></TR><HR/><TR><TD ALIGN="LEFT">+buscarPorSku(sku): Optional&lt;Producto&gt;</TD></TR><TR><TD ALIGN="LEFT">+invalidar(sku)</TD></TR><TR><TD ALIGN="LEFT">+limpiar()</TD></TR></TABLE>>];
+Usuario [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Usuario</B></TD></TR><HR/><TR><TD ALIGN="LEFT">nombre: String</TD></TR><TR><TD ALIGN="LEFT">rol: Rol</TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+ServicioReportesReal -> ServicioReportes [arrowhead=empty, style=dashed];
+ServicioReportesProxy -> ServicioReportes [arrowhead=empty, style=dashed];
+ServicioReportesProxy -> ServicioReportesReal [arrowhead=vee, style=solid, label="delega si hay permiso", fontsize=9];
+ServicioReportesProxy -> Usuario [arrowhead=vee, style=dashed, label="consulta el rol", fontsize=9];
+CatalogoRepositorio -> ConsultaCatalogo [arrowhead=empty, style=dashed];
+CatalogoCacheProxy -> ConsultaCatalogo [arrowhead=empty, style=dashed];
+CatalogoCacheProxy -> CatalogoRepositorio [arrowhead=vee, style=solid, label="delega en fallo de cache", fontsize=9];
+}

@@ -1,0 +1,19 @@
+digraph G {
+ rankdir=TB; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Arquitectura en capas e integracion de los patrones (PC2 + PC3)";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+DemoGUI_y_Paneles [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>DemoGUI_y_Paneles</B></TD></TR><HR/><TR><TD ALIGN="LEFT">Presentacion (Swing)</TD></TR><HR/><TR><TD ALIGN="LEFT">solo llama al controlador</TD></TR></TABLE>>];
+VentaController [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>VentaController</B></TD></TR><HR/><TR><TD ALIGN="LEFT">Controladores</TD></TR><HR/><TR><TD ALIGN="LEFT">+registrar(SolicitudVenta)</TD></TR><TR><TD ALIGN="LEFT">+crearPedido(...)</TD></TR><TR><TD ALIGN="LEFT">+nuevoBorrador(...)</TD></TR></TABLE>>];
+VentaFacade [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>VentaFacade</B></TD></TR><HR/><TR><TD ALIGN="LEFT">Logica de negocio</TD></TR><HR/><TR><TD ALIGN="LEFT">+registrarVenta(pedido, pago, comprobante)</TD></TR></TABLE>>];
+Servicios [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>Servicios</B></TD></TR><HR/><TR><TD ALIGN="LEFT">InventarioService (Observer)</TD></TR><TR><TD ALIGN="LEFT">NotificacionService</TD></TR><TR><TD ALIGN="LEFT">ServicioReportesProxy (Proxy + Bridge)</TD></TR><TR><TD ALIGN="LEFT">InvocadorComandos (Command)</TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+Dominio [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>Dominio</B></TD></TR><HR/><TR><TD ALIGN="LEFT">Pedido (State + Observer + Builder + Prototype)</TD></TR><TR><TD ALIGN="LEFT">Producto (Prototype + Composite)</TD></TR><TR><TD ALIGN="LEFT">BorradorPedido (Memento)</TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+DAO [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>DAO</B></TD></TR><HR/><TR><TD ALIGN="LEFT">ProductoDAO / PedidoDAO</TD></TR><TR><TD ALIGN="LEFT">Memoria | JDBC MySQL (ConexionBD, Singleton)</TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+ContextoTienda [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E3F6E8"><TR><TD><B>ContextoTienda</B></TD></TR><HR/><TR><TD ALIGN="LEFT">Raiz de composicion</TD></TR><HR/><TR><TD ALIGN="LEFT">inyecta dependencias por constructor</TD></TR></TABLE>>];
+DemoGUI_y_Paneles -> VentaController [arrowhead=vee, style=dashed];
+VentaController -> VentaFacade [arrowhead=vee, style=dashed];
+VentaFacade -> Servicios [arrowhead=vee, style=dashed];
+VentaFacade -> Dominio [arrowhead=vee, style=dashed];
+Servicios -> DAO [arrowhead=vee, style=dashed];
+VentaFacade -> DAO [arrowhead=vee, style=dashed];
+ContextoTienda -> VentaController [arrowhead=vee, style=dashed, label="crea", fontsize=9];
+}

@@ -1,0 +1,21 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Refactor Copy-Paste: Template Method en pagos, recibos y comprobantes";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+IMetodoPago [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>IMetodoPago</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+nombre(): String</TD></TR><TR><TD ALIGN="LEFT">+cobrar(monto): boolean</TD></TR></TABLE>>];
+PagoConLimite [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><I><B>PagoConLimite</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT">-nombre: String</TD></TR><TR><TD ALIGN="LEFT">-limite: double</TD></TR><HR/><TR><TD ALIGN="LEFT">+nombre(): String</TD></TR><TR><TD ALIGN="LEFT">+cobrar(monto): boolean  // una sola vez</TD></TR></TABLE>>];
+YapePago [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>YapePago</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">super(&quot;Yape&quot;, 500)</TD></TR></TABLE>>];
+PlinPago [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>PlinPago</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">super(&quot;Plin&quot;, 500)</TD></TR></TABLE>>];
+TarjetaPago [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>TarjetaPago</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">super(&quot;Tarjeta&quot;, 5000)</TD></TR></TABLE>>];
+Comprobante [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD>&laquo;interface&raquo;<BR/><B>Comprobante</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(pedido, total): String</TD></TR></TABLE>>];
+ComprobanteBase [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><I><B>ComprobanteBase</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT">-CORRELATIVOS: Map&lt;String, AtomicInteger&gt; {static}</TD></TR><HR/><TR><TD ALIGN="LEFT">+generar(pedido, total): String  // plantilla</TD></TR><TR><TD ALIGN="LEFT">#titulo(): String {abstract}</TD></TR><TR><TD ALIGN="LEFT">#serie(): String {abstract}</TD></TR><TR><TD ALIGN="LEFT">#descripcionCliente(p): String {abstract}</TD></TR></TABLE>>];
+Boleta [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Boleta</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">#titulo() / #serie() / #descripcionCliente()</TD></TR></TABLE>>];
+FacturaElectronica [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>FacturaElectronica</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">#titulo() / #serie() / #descripcionCliente()</TD></TR></TABLE>>];
+PagoConLimite -> IMetodoPago [arrowhead=empty, style=dashed];
+YapePago -> PagoConLimite [arrowhead=empty, style=solid];
+PlinPago -> PagoConLimite [arrowhead=empty, style=solid];
+TarjetaPago -> PagoConLimite [arrowhead=empty, style=solid];
+ComprobanteBase -> Comprobante [arrowhead=empty, style=dashed];
+Boleta -> ComprobanteBase [arrowhead=empty, style=solid];
+FacturaElectronica -> ComprobanteBase [arrowhead=empty, style=solid];
+}

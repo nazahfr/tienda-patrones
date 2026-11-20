@@ -1,0 +1,24 @@
+digraph G {
+ rankdir=RL; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Observer: Pedido e InventarioService publican eventos";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+Sujeto [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><I><B>Sujeto</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT">&lt;&lt;generico E&gt;&gt; tipo de evento</TD></TR><TR><TD ALIGN="LEFT">-observadores: List&lt;Observador&gt;</TD></TR><HR/><TR><TD ALIGN="LEFT">+suscribir(o)</TD></TR><TR><TD ALIGN="LEFT">+desuscribir(o)</TD></TR><TR><TD ALIGN="LEFT">#notificar(evento)</TD></TR><TR><TD ALIGN="LEFT">#reiniciarObservadores()</TD></TR></TABLE>>];
+Observador [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD>&laquo;interface&raquo;<BR/><B>Observador</B></TD></TR><HR/><TR><TD ALIGN="LEFT">&lt;&lt;generico E&gt;&gt; tipo de evento</TD></TR><HR/><TR><TD ALIGN="LEFT">+actualizar(evento: E)</TD></TR></TABLE>>];
+Pedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Pedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+cambiarEstado(nuevo)  // notificar(CambioEstadoPedido)</TD></TR></TABLE>>];
+InventarioService [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>InventarioService</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+retirar(producto, cantidad)  // notificar(AlertaStock)</TD></TR><TR><TD ALIGN="LEFT">+reponer(producto, cantidad)</TD></TR></TABLE>>];
+CambioEstadoPedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E3F6E8"><TR><TD><B>CambioEstadoPedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT">pedido: Pedido</TD></TR><TR><TD ALIGN="LEFT">estadoAnterior: String</TD></TR><TR><TD ALIGN="LEFT">estadoNuevo: String</TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+AlertaStock [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E3F6E8"><TR><TD><B>AlertaStock</B></TD></TR><HR/><TR><TD ALIGN="LEFT">producto: Producto</TD></TR><TR><TD ALIGN="LEFT">stockActual: int</TD></TR><TR><TD ALIGN="LEFT">stockMinimo: int</TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+NotificadorClienteObserver [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>NotificadorClienteObserver</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+actualizar(CambioEstadoPedido)</TD></TR></TABLE>>];
+AuditoriaObserver [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>AuditoriaObserver</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+actualizar(CambioEstadoPedido)</TD></TR></TABLE>>];
+DashboardObserver [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>DashboardObserver</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+actualizar(CambioEstadoPedido)</TD></TR></TABLE>>];
+ComprasStockObserver [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>ComprasStockObserver</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+actualizar(AlertaStock)</TD></TR></TABLE>>];
+Pedido -> Sujeto [arrowhead=empty, style=solid, label="E = CambioEstadoPedido", fontsize=9];
+InventarioService -> Sujeto [arrowhead=empty, style=solid, label="E = AlertaStock", fontsize=9];
+Sujeto -> Observador [arrowhead=vee, style=solid, label="0..*", fontsize=9];
+NotificadorClienteObserver -> Observador [arrowhead=empty, style=dashed];
+AuditoriaObserver -> Observador [arrowhead=empty, style=dashed];
+DashboardObserver -> Observador [arrowhead=empty, style=dashed];
+ComprasStockObserver -> Observador [arrowhead=empty, style=dashed];
+Pedido -> CambioEstadoPedido [arrowhead=vee, style=dashed, label="publica", fontsize=9];
+InventarioService -> AlertaStock [arrowhead=vee, style=dashed, label="publica", fontsize=9];
+}

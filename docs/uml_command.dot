@@ -1,0 +1,18 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Command: operaciones de inventario reversibles y auditables";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+Comando [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD>&laquo;interface&raquo;<BR/><B>Comando</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+ejecutar()</TD></TR><TR><TD ALIGN="LEFT">+deshacer()</TD></TR><TR><TD ALIGN="LEFT">+descripcion(): String</TD></TR></TABLE>>];
+DescontarStockComando [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>DescontarStockComando</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-inventario: InventarioService</TD></TR><TR><TD ALIGN="LEFT">-producto: Producto</TD></TR><TR><TD ALIGN="LEFT">-cantidad: int</TD></TR><HR/><TR><TD ALIGN="LEFT">+ejecutar()  // retirar</TD></TR><TR><TD ALIGN="LEFT">+deshacer()  // reponer</TD></TR></TABLE>>];
+ReponerStockComando [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>ReponerStockComando</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-inventario: InventarioService</TD></TR><TR><TD ALIGN="LEFT">-producto: Producto</TD></TR><TR><TD ALIGN="LEFT">-cantidad: int</TD></TR><HR/><TR><TD ALIGN="LEFT">+ejecutar()  // reponer</TD></TR><TR><TD ALIGN="LEFT">+deshacer()  // retirar</TD></TR></TABLE>>];
+ComandoCompuesto [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>ComandoCompuesto</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-hijos: List&lt;Comando&gt;</TD></TR><HR/><TR><TD ALIGN="LEFT">+ejecutar()  // atomico</TD></TR><TR><TD ALIGN="LEFT">+deshacer()</TD></TR></TABLE>>];
+InvocadorComandos [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>InvocadorComandos</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-hechos, deshechos: Deque&lt;Comando&gt;</TD></TR><TR><TD ALIGN="LEFT">-cola: Deque&lt;Comando&gt;</TD></TR><TR><TD ALIGN="LEFT">-bitacora: List&lt;String&gt;</TD></TR><HR/><TR><TD ALIGN="LEFT">+ejecutar(c)</TD></TR><TR><TD ALIGN="LEFT">+deshacer(): boolean</TD></TR><TR><TD ALIGN="LEFT">+rehacer(): boolean</TD></TR><TR><TD ALIGN="LEFT">+encolar(c)</TD></TR><TR><TD ALIGN="LEFT">+procesarCola(): int</TD></TR></TABLE>>];
+InventarioService [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>InventarioService</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+retirar(producto, cantidad)</TD></TR><TR><TD ALIGN="LEFT">+reponer(producto, cantidad)</TD></TR></TABLE>>];
+DescontarStockComando -> Comando [arrowhead=empty, style=dashed];
+ReponerStockComando -> Comando [arrowhead=empty, style=dashed];
+ComandoCompuesto -> Comando [arrowhead=empty, style=dashed];
+ComandoCompuesto -> Comando [dir=back, arrowtail=odiamond, arrowhead=none, style=solid, label="hijos", fontsize=9];
+InvocadorComandos -> Comando [arrowhead=vee, style=solid, label="ejecuta", fontsize=9];
+DescontarStockComando -> InventarioService [arrowhead=vee, style=solid, label="receptor", fontsize=9];
+ReponerStockComando -> InventarioService [arrowhead=vee, style=solid, label="receptor", fontsize=9];
+}

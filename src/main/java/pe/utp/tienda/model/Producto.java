@@ -9,6 +9,7 @@ public abstract class Producto implements ComponenteCatalogo, Cloneable {
     private String talla;
     private final double precio;
     private int stock;
+    private int stockMinimo = 5;   // umbral para la alerta de reposicion (Observer)
 
     protected Producto(String sku, String nombre, String talla, double precio, int stock) {
         this.sku = sku;
@@ -46,10 +47,19 @@ public abstract class Producto implements ComponenteCatalogo, Cloneable {
         stock -= cantidad;
     }
 
+    /** Operacion inversa de descontarStock (la usa el Command para deshacer y las compras de reposicion). */
+    public void reponerStock(int cantidad) {
+        if (cantidad <= 0) throw new IllegalArgumentException("La cantidad a reponer debe ser mayor a 0");
+        stock += cantidad;
+    }
+
     public String getSku() { return sku; }
     public String getTalla() { return talla; }
     public double getPrecio() { return precio; }
     public int getStock() { return stock; }
+    public int getStockMinimo() { return stockMinimo; }
+    public void setStockMinimo(int stockMinimo) { this.stockMinimo = stockMinimo; }
+    public boolean tieneStockBajo() { return stock <= stockMinimo; }
 
     // ---- Composite (comportamiento de hoja) ----
     @Override public String getNombre() { return nombre + " (" + talla + ")"; }

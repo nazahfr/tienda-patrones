@@ -1,0 +1,18 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Bridge: Reporte (abstraccion) x ExportadorReporte (implementacion)";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+Reporte [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><I><B>Reporte</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT">#exportador: ExportadorReporte</TD></TR><HR/><TR><TD ALIGN="LEFT">+titulo(): String {abstract}</TD></TR><TR><TD ALIGN="LEFT">+columnas(): List&lt;String&gt; {abstract}</TD></TR><TR><TD ALIGN="LEFT">+filas(): List&lt;List&lt;String&gt;&gt; {abstract}</TD></TR><TR><TD ALIGN="LEFT">+setExportador(e)</TD></TR><TR><TD ALIGN="LEFT">+exportar(): String</TD></TR></TABLE>>];
+ReporteVentas [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>ReporteVentas</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-pedidos: List&lt;Pedido&gt;</TD></TR><HR/><TR><TD ALIGN="LEFT">+titulo()</TD></TR><TR><TD ALIGN="LEFT">+columnas()</TD></TR><TR><TD ALIGN="LEFT">+filas()</TD></TR></TABLE>>];
+ReporteInventario [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>ReporteInventario</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-productos: List&lt;Producto&gt;</TD></TR><HR/><TR><TD ALIGN="LEFT">+titulo()</TD></TR><TR><TD ALIGN="LEFT">+columnas()</TD></TR><TR><TD ALIGN="LEFT">+filas()</TD></TR></TABLE>>];
+ExportadorReporte [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD>&laquo;interface&raquo;<BR/><B>ExportadorReporte</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+nombre(): String</TD></TR><TR><TD ALIGN="LEFT">+extension(): String</TD></TR><TR><TD ALIGN="LEFT">+exportar(titulo, columnas, filas): String</TD></TR><TR><TD ALIGN="LEFT">+para(formato): ExportadorReporte {static}</TD></TR></TABLE>>];
+ExportadorHtml [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>ExportadorHtml</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+exportar(...)</TD></TR></TABLE>>];
+ExportadorCsv [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>ExportadorCsv</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+exportar(...)</TD></TR></TABLE>>];
+ExportadorJson [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>ExportadorJson</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+exportar(...)</TD></TR></TABLE>>];
+ReporteVentas -> Reporte [arrowhead=empty, style=solid];
+ReporteInventario -> Reporte [arrowhead=empty, style=solid];
+Reporte -> ExportadorReporte [arrowhead=vee, style=solid, label="puente (delega el formato)", fontsize=9];
+ExportadorHtml -> ExportadorReporte [arrowhead=empty, style=dashed];
+ExportadorCsv -> ExportadorReporte [arrowhead=empty, style=dashed];
+ExportadorJson -> ExportadorReporte [arrowhead=empty, style=dashed];
+}

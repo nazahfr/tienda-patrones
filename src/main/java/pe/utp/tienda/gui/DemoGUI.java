@@ -1,12 +1,13 @@
 package pe.utp.tienda.gui;
 
+import pe.utp.tienda.app.ContextoTienda;
+import pe.utp.tienda.controller.ResultadoVenta;
+import pe.utp.tienda.controller.SolicitudVenta;
 import pe.utp.tienda.creational.abstractfactory.PasarelaPagoFactory;
 import pe.utp.tienda.creational.factory.ComprobanteFactory;
 import pe.utp.tienda.creational.singleton.ConfiguracionApp;
 import pe.utp.tienda.creational.singleton.ConexionBD;
 import pe.utp.tienda.model.*;
-import pe.utp.tienda.service.InventarioService;
-import pe.utp.tienda.service.NotificacionService;
 import pe.utp.tienda.structural.adapter.ReniecAdapter;
 import pe.utp.tienda.structural.adapter.ReniecApiExterna;
 import pe.utp.tienda.structural.composite.Categoria;
@@ -46,15 +47,13 @@ public class DemoGUI extends JFrame {
     // Fuentes
     static Font FONT_TITLE, FONT_BODY, FONT_MONO, FONT_SMALL, FONT_BOLD;
 
-    // Estado compartido
-    private final Polera      polera    = new Polera("POL-OVR-001", "Polera Oversize Negra", "M", 59.0, 25);
-    private final Pantalon    pantalon  = new Pantalon("PAN-CRG-001", "Pantalone Cargo Beige", "32", 79.0, 15);
-    private final Zapatilla   zapatilla = new Zapatilla("ZAP-URB-001", "Zapatillas Urbanas Blancas", "40", 148.0, 10);
+    // Estado compartido: todo sale de la raiz de composicion (inyeccion de dependencias), la GUI no hace "new" de servicios
+    private final ContextoTienda ctx = ContextoTienda.crear();
+    private final Polera      polera    = (Polera) ctx.producto("POL-OVR-001");
+    private final Pantalon    pantalon  = (Pantalon) ctx.producto("PAN-CRG-001");
+    private final Zapatilla   zapatilla = (Zapatilla) ctx.producto("ZAP-URB-001");
     private final Cliente     clienteAna = new Cliente("72345678", "Ana", "Torres");
-    private final VentaFacade facade    = new VentaFacade(
-            new ReniecAdapter(new ReniecApiExterna()),
-            new InventarioService(),
-            new NotificacionService());
+    private final VentaFacade facade    = ctx.facade();
 
     private JTextArea consoleArea;
     private CardLayout cardLayout;
@@ -69,7 +68,7 @@ public class DemoGUI extends JFrame {
 
     public DemoGUI() {
         initFonts();
-        setTitle("Tienda de Ropa – Demo Patrones de Diseño · UTP");
+        setTitle("Tienda de Ropa – Demo Patrones de Diseño · UTP (PC3)");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 760);
         setMinimumSize(new Dimension(900, 600));
@@ -116,7 +115,8 @@ public class DemoGUI extends JFrame {
 
         h.add(Box.createHorizontalGlue());
         h.add(pill("Creacionales ×5", new Color(99, 102, 241, 60)));
-        h.add(pill("Estructurales ×4", new Color(6, 182, 212, 60)));
+        h.add(pill("Estructurales ×6", new Color(6, 182, 212, 60)));
+        h.add(pill("Comportamiento ×4", new Color(16, 185, 129, 60)));
         return h;
     }
 
@@ -154,9 +154,21 @@ public class DemoGUI extends JFrame {
         cardsPanel.add(buildFacadePanel(),           "facade");
         cardsPanel.add(buildDecoratorPanel(),        "decorator");
         cardsPanel.add(buildCompositePanel(),        "composite");
+        // PC3
+        cardsPanel.add(new PanelProxy(this, ctx).build(),     "proxy");
+        cardsPanel.add(new PanelBridge(this, ctx).build(),    "bridge");
+        cardsPanel.add(new PanelState(this, ctx).build(),     "state");
+        cardsPanel.add(new PanelObserver(this, ctx).build(),  "observer");
+        cardsPanel.add(new PanelCommand(this, ctx).build(),   "command");
+        cardsPanel.add(new PanelMemento(this, ctx).build(),   "memento");
 
+        JScrollPane sideScroll = new JScrollPane(buildSidebar());
+        sideScroll.setBorder(null);
+        sideScroll.getViewport().setBackground(SURFACE);
+        sideScroll.getVerticalScrollBar().setUnitIncrement(16);
+        sideScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                buildSidebar(), new JScrollPane(cardsPanel));
+                sideScroll, new JScrollPane(cardsPanel));
         split.setDividerLocation(230);
         split.setDividerSize(1);
         split.setBorder(null);
@@ -199,6 +211,29 @@ public class DemoGUI extends JFrame {
         };
         for (String[] d : estructural) {
             JToggleButton btn = sideBtn(d[0], d[1], d[2], d[3], CYAN);
+            bg.add(btn);
+            side.add(btn);
+        }
+        side.add(sideTitle("ESTRUCTURALES II · PC3"));
+        String[][] estructural2 = {
+            {"proxy",  "🛡", "Proxy",  "E5"},
+            {"bridge", "🌉", "Bridge", "E6"}
+        };
+        for (String[] d : estructural2) {
+            JToggleButton btn = sideBtn(d[0], d[1], d[2], d[3], CYAN);
+            bg.add(btn);
+            side.add(btn);
+        }
+
+        side.add(sideTitle("COMPORTAMIENTO · PC3"));
+        String[][] comportamiento = {
+            {"state",    "🚦", "State",    "B1"},
+            {"observer", "📡", "Observer", "B2"},
+            {"command",  "🎮", "Command",  "B3"},
+            {"memento",  "💾", "Memento",  "B4"}
+        };
+        for (String[] d : comportamiento) {
+            JToggleButton btn = sideBtn(d[0], d[1], d[2], d[3], GREEN);
             bg.add(btn);
             side.add(btn);
         }
@@ -325,7 +360,7 @@ public class DemoGUI extends JFrame {
     //  UTILIDADES DE UI
     // ══════════════════════════════════════════════════════
 
-    private JPanel card(String title, JComponent body) {
+    JPanel card(String title, JComponent body) {
         JPanel p = new JPanel(new BorderLayout()) {
             @Override protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -350,7 +385,7 @@ public class DemoGUI extends JFrame {
         return p;
     }
 
-    private JButton btn(String text, Color base) {
+    JButton btn(String text, Color base) {
         JButton b = new JButton(text) {
             @Override protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -375,14 +410,14 @@ public class DemoGUI extends JFrame {
         return b;
     }
 
-    private JButton smallBtn(String text, Color base) {
+    JButton smallBtn(String text, Color base) {
         JButton b = btn(text, base);
         b.setFont(FONT_SMALL);
         b.setBorder(new EmptyBorder(4, 10, 4, 10));
         return b;
     }
 
-    private JTextField field(String placeholder) {
+    JTextField field(String placeholder) {
         JTextField tf = new JTextField(placeholder);
         tf.setBackground(SURFACE2);
         tf.setForeground(TEXT);
@@ -394,7 +429,7 @@ public class DemoGUI extends JFrame {
         return tf;
     }
 
-    private JComboBox<String> combo(String... items) {
+    JComboBox<String> combo(String... items) {
         JComboBox<String> cb = new JComboBox<>(items);
         cb.setBackground(SURFACE2);
         cb.setForeground(TEXT);
@@ -403,14 +438,14 @@ public class DemoGUI extends JFrame {
         return cb;
     }
 
-    private JLabel kv(String key, String value, Color valueColor) {
+    JLabel kv(String key, String value, Color valueColor) {
         JLabel l = new JLabel("<html><span style='color:gray'>" + key + "</span>  <b>" + value + "</b></html>");
         l.setForeground(valueColor);
         l.setFont(FONT_BODY);
         return l;
     }
 
-    private void log(String msg) {
+    void log(String msg) {
         String ts = new SimpleDateFormat("HH:mm:ss").format(new Date());
         if (consoleArea != null) {
             consoleArea.append("[" + ts + "] " + msg + "\n");
@@ -420,25 +455,25 @@ public class DemoGUI extends JFrame {
         }
     }
 
-    private void logOk(String msg)   { log("✔  " + msg); }
-    private void logFail(String msg) { log("✘  " + msg); }
-    private void logSep(String msg)  { log("─── " + msg + " ───────────────────────"); }
+    void logOk(String msg)   { log("✔  " + msg); }
+    void logFail(String msg) { log("✘  " + msg); }
+    void logSep(String msg)  { log("─── " + msg + " ───────────────────────"); }
 
-    private JPanel panelBase() {
+    JPanel panelBase() {
         JPanel p = new JPanel();
         p.setBackground(BG);
         p.setBorder(new EmptyBorder(24, 28, 24, 28));
         return p;
     }
 
-    private JPanel row(Component... cs) {
+    JPanel row(Component... cs) {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         p.setOpaque(false);
         for (Component c : cs) p.add(c);
         return p;
     }
 
-    private JLabel header(String emoji, String title, String subtitle, Color iconBg) {
+    JLabel header(String emoji, String title, String subtitle, Color iconBg) {
         JLabel lbl = new JLabel("<html><span style='font-size:18px'>" + emoji +
                 "</span>  <b style='font-size:15px'>" + title + "</b>" +
                 "<br><span style='color:#94a3b8;font-size:11px'>" + subtitle + "</span></html>");
@@ -895,24 +930,18 @@ public class DemoGUI extends JFrame {
         JButton ventaBtn = btn("🚀  registrarVenta()", ACCENT);
         ventaBtn.addActionListener(e -> {
             try {
-                String[] parts = nomF.getText().trim().split(" ", 2);
-                Cliente cl = new Cliente(dniF.getText().trim(), parts[0], parts.length > 1 ? parts[1] : "");
                 Producto prod2 = switch (prodCB.getSelectedIndex()) {
                     case 1 -> pantalon; case 2 -> zapatilla; default -> polera;
                 };
-                int    cant    = Integer.parseInt(cantF.getText().trim());
-                double desc    = Double.parseDouble(descF.getText().trim());
-                double envio   = Double.parseDouble(envioF.getText().trim());
-                String metodo  = (String) pagoCB.getSelectedItem();
-                String tipoComp= (String) compCB.getSelectedItem();
-
-                Pedido pedido = new Pedido.Builder(cl)
-                        .agregarItem(prod2, cant)
-                        .descuento(desc).envio(envio)
-                        .build();
-
                 logSep("FACADE – registrarVenta()");
-                String res = facade.registrarVenta(pedido, metodo, tipoComp);
+                ResultadoVenta rv = ctx.ventas().registrar(new SolicitudVenta(
+                        dniF.getText(), nomF.getText(), prod2,
+                        Integer.parseInt(cantF.getText().trim()),
+                        Double.parseDouble(descF.getText().trim()),
+                        Double.parseDouble(envioF.getText().trim()),
+                        (String) pagoCB.getSelectedItem(), (String) compCB.getSelectedItem()));
+                Pedido pedido = rv.pedido();
+                String res = rv.detalle();
                 logOk("Venta completada. Estado: " + pedido.getEstado());
                 logOk("Stock " + prod2.getNombre() + ": " + prod2.getStock());
                 result.setText(res + "\nEstado del pedido: " + pedido.getEstado());
@@ -927,9 +956,7 @@ public class DemoGUI extends JFrame {
         JButton errBtn = btn("💥  DNI inválido", RED);
         errBtn.addActionListener(e -> {
             try {
-                Cliente malo = new Cliente("123", "Pedro", "Gomez");
-                Pedido pedido = new Pedido.Builder(malo).agregarItem(zapatilla, 1).build();
-                facade.registrarVenta(pedido, "TARJETA", "BOLETA");
+                ctx.ventas().registrar(new SolicitudVenta("123", "Pedro Gomez", zapatilla, 1, 0, 0, "TARJETA", "BOLETA"));
             } catch (Exception ex) {
                 logSep("FACADE – DNI inválido");
                 logFail(ex.getMessage());
@@ -1115,7 +1142,7 @@ public class DemoGUI extends JFrame {
     }
 
     // ── Helpers ───────────────────────────────────────────
-    private JLabel label(String text) {
+    JLabel label(String text) {
         JLabel l = new JLabel(text);
         l.setForeground(TEXT2);
         l.setFont(FONT_BODY);

@@ -1,0 +1,13 @@
+digraph G {
+ rankdir=TB; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="Memento: deshacer/rehacer en el borrador del pedido";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+BorradorPedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>BorradorPedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-cliente: Cliente</TD></TR><TR><TD ALIGN="LEFT">-items: List&lt;ItemPedido&gt;</TD></TR><TR><TD ALIGN="LEFT">-descuentoPct, costoEnvio: double</TD></TR><TR><TD ALIGN="LEFT">-notas: String</TD></TR><HR/><TR><TD ALIGN="LEFT">+agregarItem(p, n)</TD></TR><TR><TD ALIGN="LEFT">+quitarItem(sku)</TD></TR><TR><TD ALIGN="LEFT">+descuento(pct)</TD></TR><TR><TD ALIGN="LEFT">+guardar(): Memento</TD></TR><TR><TD ALIGN="LEFT">+restaurar(m: Memento)</TD></TR><TR><TD ALIGN="LEFT">+confirmar(): Pedido</TD></TR></TABLE>>];
+Memento [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>Memento</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-items: List&lt;ItemPedido&gt;</TD></TR><TR><TD ALIGN="LEFT">-descuentoPct: double</TD></TR><TR><TD ALIGN="LEFT">-costoEnvio: double</TD></TR><TR><TD ALIGN="LEFT">-notas: String</TD></TR><HR/><TR><TD ALIGN="LEFT">(sin metodos publicos)</TD></TR></TABLE>>];
+HistorialBorrador [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>HistorialBorrador</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-paraDeshacer: Deque&lt;Memento&gt;</TD></TR><TR><TD ALIGN="LEFT">-paraRehacer: Deque&lt;Memento&gt;</TD></TR><HR/><TR><TD ALIGN="LEFT">+respaldar(b)</TD></TR><TR><TD ALIGN="LEFT">+deshacer(b): boolean</TD></TR><TR><TD ALIGN="LEFT">+rehacer(b): boolean</TD></TR></TABLE>>];
+Pedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>Pedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+BorradorPedido -> Memento [dir=back, arrowtail=diamond, arrowhead=none, style=solid, label="crea y restaura", fontsize=9];
+HistorialBorrador -> Memento [dir=back, arrowtail=odiamond, arrowhead=none, style=solid, label="guarda (sin abrirlos)", fontsize=9];
+HistorialBorrador -> BorradorPedido [arrowhead=vee, style=dashed, label="respalda / restaura", fontsize=9];
+BorradorPedido -> Pedido [arrowhead=vee, style=dashed, label="confirmar() con Builder", fontsize=9];
+}

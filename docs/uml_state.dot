@@ -1,0 +1,24 @@
+digraph G {
+ rankdir=BT; nodesep=0.5; ranksep=0.7; labelloc=t; fontsize=14; label="State: ciclo de vida del Pedido";
+ node [shape=plain, fontname="Helvetica", fontsize=10];
+ edge [fontname="Helvetica", fontsize=9];
+Pedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD><B>Pedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT">-estado: EstadoPedido</TD></TR><HR/><TR><TD ALIGN="LEFT">+pagar()</TD></TR><TR><TD ALIGN="LEFT">+preparar()</TD></TR><TR><TD ALIGN="LEFT">+enviar()</TD></TR><TR><TD ALIGN="LEFT">+entregar()</TD></TR><TR><TD ALIGN="LEFT">+cancelar()</TD></TR><TR><TD ALIGN="LEFT">+cambiarEstado(nuevo)</TD></TR><TR><TD ALIGN="LEFT">+getEstado(): String</TD></TR></TABLE>>];
+EstadoPedido [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF4CE"><TR><TD>&laquo;interface&raquo;<BR/><B>EstadoPedido</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+nombre(): String</TD></TR><TR><TD ALIGN="LEFT">+pagar(p)</TD></TR><TR><TD ALIGN="LEFT">+preparar(p)</TD></TR><TR><TD ALIGN="LEFT">+enviar(p)</TD></TR><TR><TD ALIGN="LEFT">+entregar(p)</TD></TR><TR><TD ALIGN="LEFT">+cancelar(p)</TD></TR><TR><TD ALIGN="LEFT">+de(nombre): EstadoPedido {static}</TD></TR></TABLE>>];
+EstadoBase [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><I><B>EstadoBase</B></I></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+pagar(p): rechaza</TD></TR><TR><TD ALIGN="LEFT">+preparar(p): rechaza</TD></TR><TR><TD ALIGN="LEFT">+enviar(p): rechaza</TD></TR><TR><TD ALIGN="LEFT">+entregar(p): rechaza</TD></TR><TR><TD ALIGN="LEFT">+cancelar(p): rechaza</TD></TR></TABLE>>];
+EstadoPendiente [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>EstadoPendiente</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+pagar(p) -&gt; Pagado</TD></TR><TR><TD ALIGN="LEFT">+cancelar(p) -&gt; Cancelado</TD></TR></TABLE>>];
+EstadoPagado [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>EstadoPagado</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+preparar(p) -&gt; EnPreparacion</TD></TR><TR><TD ALIGN="LEFT">+cancelar(p) -&gt; Cancelado</TD></TR></TABLE>>];
+EstadoEnPreparacion [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>EstadoEnPreparacion</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+enviar(p) -&gt; Enviado</TD></TR><TR><TD ALIGN="LEFT">+cancelar(p) -&gt; Cancelado</TD></TR></TABLE>>];
+EstadoEnviado [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>EstadoEnviado</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">+entregar(p) -&gt; Entregado</TD></TR></TABLE>>];
+EstadoEntregado [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>EstadoEntregado</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">(estado final)</TD></TR></TABLE>>];
+EstadoCancelado [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>EstadoCancelado</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT">(estado final)</TD></TR></TABLE>>];
+TransicionInvalidaException [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#E8F0FE"><TR><TD><B>TransicionInvalidaException</B></TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR><HR/><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+Pedido -> EstadoPedido [arrowhead=vee, style=solid, label="estado actual", fontsize=9];
+EstadoBase -> EstadoPedido [arrowhead=empty, style=dashed];
+EstadoPendiente -> EstadoBase [arrowhead=empty, style=solid];
+EstadoPagado -> EstadoBase [arrowhead=empty, style=solid];
+EstadoEnPreparacion -> EstadoBase [arrowhead=empty, style=solid];
+EstadoEnviado -> EstadoBase [arrowhead=empty, style=solid];
+EstadoEntregado -> EstadoBase [arrowhead=empty, style=solid];
+EstadoCancelado -> EstadoBase [arrowhead=empty, style=solid];
+EstadoBase -> TransicionInvalidaException [arrowhead=vee, style=dashed, label="lanza", fontsize=9];
+}
